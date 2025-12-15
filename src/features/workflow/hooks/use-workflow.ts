@@ -1,5 +1,10 @@
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { toast } from "sonner";
 /**
  * 모든 워크플로우를 가져오는 훅, suspense 적용
  * @returns 워크플로우 목록
@@ -7,4 +12,26 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 export const useSuspenseWorkflows = () => {
   const trpc = useTRPC();
   return useSuspenseQuery(trpc.workflow.getWorkflows.queryOptions());
+};
+
+/**
+ * 새로운 워크플로우를 생성하는 훅
+ */
+export const useCreateWorkflow = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflow.create.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`워크플로우 "${data.name}" 생성 성공`);
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflows.queryOptions()
+        );
+      },
+      onError: (error) => {
+        toast.error(`워크플로우 생성 실패: ${error.message}`);
+      },
+    })
+  );
 };
