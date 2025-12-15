@@ -1,3 +1,4 @@
+import { useWorkflowsParams } from "@/features/workflow/hooks/use-workflows-params";
 import { useTRPC } from "@/trpc/client";
 import {
   useMutation,
@@ -11,7 +12,8 @@ import { toast } from "sonner";
  */
 export const useSuspenseWorkflows = () => {
   const trpc = useTRPC();
-  return useSuspenseQuery(trpc.workflow.getWorkflows.queryOptions());
+  const [params] = useWorkflowsParams();
+  return useSuspenseQuery(trpc.workflow.getWorkflows.queryOptions(params));
 };
 
 /**
@@ -26,7 +28,7 @@ export const useCreateWorkflow = () => {
       onSuccess: (data) => {
         toast.success(`워크플로우 "${data.name}" 생성 성공`);
         queryClient.invalidateQueries(
-          trpc.workflow.getWorkflows.queryOptions()
+          trpc.workflow.getWorkflows.queryOptions({})
         );
       },
       onError: (error) => {
@@ -48,7 +50,7 @@ export const useRemoveWorkflow = () => {
       onSuccess: (data) => {
         toast.success(`워크플로우 "${data.name}" 삭제 성공`);
         queryClient.invalidateQueries(
-          trpc.workflow.getWorkflows.queryOptions()
+          trpc.workflow.getWorkflows.queryOptions({})
         );
       },
       onError: (error) => {

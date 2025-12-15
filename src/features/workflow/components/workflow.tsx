@@ -6,6 +6,10 @@ import {
   EntityEmptyView,
   EntityItem,
   EntityList,
+  EntityPagination,
+  EntitySearch,
+  ErrorView,
+  LoadingView,
 } from "@/components/entity-components";
 import {
   useCreateWorkflow,
@@ -16,12 +20,14 @@ import { Workflow } from "@/generated/prisma/client";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { WorkflowIcon } from "lucide-react";
+import { useWorkflowsParams } from "@/features/workflow/hooks/use-workflows-params";
+import { useEntitySearch } from "@/hooks/use-entity-search";
 
 export const WorkflowsList = () => {
   const workflows = useSuspenseWorkflows();
   return (
     <EntityList
-      items={workflows.data}
+      items={workflows.data.items}
       getKey={(workflow) => workflow.id}
       renderItem={(workflow) => <WorkflowsItem data={workflow} />}
       emptyView={<WorkflowsEmptyView />}
@@ -35,7 +41,11 @@ export const WorkflowsContainer = ({
   children: React.ReactNode;
 }) => {
   return (
-    <EntityContainer header={<WorkflowsHeader disabled={false} />}>
+    <EntityContainer
+      header={<WorkflowsHeader disabled={false} />}
+      search={<WorkflowsSearch />}
+      pagination={<WorkflowsPagination />}
+    >
       {children}
     </EntityContainer>
   );
@@ -109,5 +119,43 @@ export const WorkflowsEmptyView = () => {
       message="생성된 워크플로우가 없습니다. 새로운 워크플로우를 생성해주세요."
       onNew={handleCreate}
     />
+  );
+};
+
+export const WorkflowsSearch = () => {
+  const [params, setParams] = useWorkflowsParams();
+  const { searchValue, onSearchChange } = useEntitySearch({
+    params,
+    setParams,
+  });
+  return (
+    <EntitySearch
+      value={searchValue}
+      onChange={onSearchChange}
+      placeholder="워크플로우 검색"
+    />
+  );
+};
+
+export const WorkflowsPagination = () => {
+  const workflows = useSuspenseWorkflows();
+  const [params, setParams] = useWorkflowsParams();
+  return (
+    <EntityPagination
+      disabled={workflows.isFetching}
+      page={params.page}
+      totalPages={workflows.data.totalPages}
+      onPageChange={(page) => setParams({ ...params, page })}
+    />
+  );
+};
+
+export const WorkflowsLoadingView = () => {
+  return <LoadingView message="워크플로우를 불러오는 중입니다." />;
+};
+
+export const WorkflowsErrorView = () => {
+  return (
+    <ErrorView message="워크플로우를 불러오는 중에 오류가 발생했습니다." />
   );
 };
