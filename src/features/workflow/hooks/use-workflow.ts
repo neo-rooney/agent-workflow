@@ -35,3 +35,25 @@ export const useCreateWorkflow = () => {
     })
   );
 };
+
+/**
+ * 워크플로우를 삭제하는 훅
+ */
+export const useRemoveWorkflow = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflow.remove.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`워크플로우 "${data.name}" 삭제 성공`);
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflows.queryOptions()
+        );
+      },
+      onError: (error) => {
+        toast.error(`워크플로우 삭제 실패: ${error.message}`);
+      },
+    })
+  );
+};
