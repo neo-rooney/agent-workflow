@@ -2,6 +2,8 @@ import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 import { PAGINATION } from "@/configs/constants";
+import { NodeType } from "@/generated/prisma/enums";
+import type { Edge, Node } from "@xyflow/react";
 
 const workflowNameGenerator = () => {
   const prefix = "workflow";
@@ -15,6 +17,13 @@ export const workflowRouter = createTRPCRouter({
       data: {
         name: workflowNameGenerator(),
         userId: ctx.auth.user.id,
+        nodes: {
+          create: {
+            name: NodeType.INITIAL,
+            type: NodeType.INITIAL,
+            position: { x: 0, y: 0 },
+          },
+        },
       },
     });
   }),
@@ -76,12 +85,38 @@ export const workflowRouter = createTRPCRouter({
   getWorkflow: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      return prisma.workflow.findUniqueOrThrow({
+      const workflow = await prisma.workflow.findUniqueOrThrow({
         where: {
           id: input.id,
           userId: ctx.auth.user.id,
         },
+        include: {
+          nodes: true,
+          connections: true,
+        },
       });
+
+      const nodes: Node[] = workflow.nodes.map((node) => ({
+        id: node.id,
+        type: node.type,
+        position: node.position as { x: number; y: number },
+        data: (node.data as Record<string, unknown>) || {},
+      }));
+
+      const edges: Edge[] = workflow.connections.map((connection) => ({
+        id: connection.id,
+        source: connection.fromNodeId,
+        target: connection.toNodeId,
+        sourceHandle: connection.fromOutput,
+        targetHandle: connection.toInput,
+      }));
+
+      return {
+        id: workflow.id,
+        name: workflow.name,
+        nodes,
+        edges,
+      };
     }),
   updateName: protectedProcedure
     .input(z.object({ id: z.string(), name: z.string() }))
