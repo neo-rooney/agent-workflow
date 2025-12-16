@@ -11,3 +11,12 @@ type Input = inferInput<typeof trpc.workflow.getWorkflows>;
 export const prefetchWorkflows = (params: Input) => {
   return prefetch(trpc.workflow.getWorkflows.queryOptions(params));
 };
+
+/**
+ * 개별 워크플로우를 가져오는 쿼리를 미리 실행
+ * @param id 워크플로우 ID
+ * @returns 쿼리 결과
+ */
+export const prefetchWorkflow = (id: string) => {
+  return prefetch(trpc.workflow.getWorkflow.queryOptions({ id }));
+};

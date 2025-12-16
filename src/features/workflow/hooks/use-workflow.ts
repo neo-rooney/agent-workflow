@@ -59,3 +59,38 @@ export const useRemoveWorkflow = () => {
     })
   );
 };
+
+/**
+ * 개별 워크플로우를 가져오는 훅, suspense 적용
+ * @param id 워크플로우 ID
+ * @returns 워크크플로우 데이터
+ */
+export const useSuspenseWorkflow = (id: string) => {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.workflow.getWorkflow.queryOptions({ id }));
+};
+
+/**
+ * 워크플로우 이름을 업데이트하는 훅
+ */
+export const useUpdateWorkflowName = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflow.updateName.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`워크플로우 이름이 변경 : "${data.name}"`);
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflows.queryOptions({})
+        );
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflow.queryOptions({ id: data.id })
+        );
+      },
+      onError: (error) => {
+        toast.error(`워크플로우 이름 업데이트 실패: ${error.message}`);
+      },
+    })
+  );
+};
