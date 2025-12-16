@@ -94,3 +94,28 @@ export const useUpdateWorkflowName = () => {
     })
   );
 };
+
+/**
+ * 워크플로우를 업데이트하는 훅
+ */
+export const useUpdateWorkflow = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflow.update.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`워크플로우 "${data.name}" 업데이트 성공`);
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflows.queryOptions({})
+        );
+        queryClient.invalidateQueries(
+          trpc.workflow.getWorkflow.queryOptions({ id: data.id })
+        );
+      },
+      onError: (error) => {
+        toast.error(`워크플로우 업데이트 실패: ${error.message}`);
+      },
+    })
+  );
+};

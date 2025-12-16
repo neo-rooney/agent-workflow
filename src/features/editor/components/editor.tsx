@@ -21,6 +21,8 @@ import "@xyflow/react/dist/style.css";
 import { useSuspenseWorkflow } from "@/features/workflow/hooks/use-workflow";
 import { nodeComponents } from "@/configs/node-components";
 import { AddNodeButton } from "@/components/add-node-button";
+import { editorAtom } from "@/features/editor/store/atoms";
+import { useSetAtom } from "jotai";
 
 export const EditorLoadingView = () => {
   return <LoadingView message="워크플로우 편집기를 불러오는 중입니다." />;
@@ -34,6 +36,8 @@ export const EditorErrorView = () => {
 
 export const Editor = ({ workflowId }: { workflowId: string }) => {
   const { data: workflow } = useSuspenseWorkflow(workflowId);
+
+  const setEditor = useSetAtom(editorAtom);
 
   const [nodes, setNodes] = useState<Node[]>(workflow.nodes);
   const [edges, setEdges] = useState<Edge[]>(workflow.edges);
@@ -66,6 +70,7 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
           hideAttribution: true,
         }}
         nodeTypes={nodeComponents}
+        onInit={setEditor}
       >
         <Controls />
         <MiniMap />
