@@ -4,7 +4,7 @@ import { GlobeIcon } from "lucide-react";
 import { memo, useState } from "react";
 import { BaseExecutionNode } from "../base-execution-node";
 import { HttpRequestDialog, type HttpRequsetFormValues } from "./dialog";
-type HttpRequestNodeData = {
+export type HttpRequestNodeData = {
   endpoint?: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
