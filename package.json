@@ -48,6 +48,7 @@
     "sonner": "^2.0.7",
     "superjson": "^2.2.6",
     "tailwind-merge": "^3.4.0",
+    "toposort": "^2.0.2",
     "zod": "^4.1.13"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/toposort": "^2.0.7",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "inngest-cli": "^1.15.0",
