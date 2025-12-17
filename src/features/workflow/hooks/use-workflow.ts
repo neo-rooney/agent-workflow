@@ -119,3 +119,20 @@ export const useUpdateWorkflow = () => {
     })
   );
 };
+
+/**
+ * 워크플로우를 실행하는 훅
+ */
+export const useExecuteWorkflow = () => {
+  const trpc = useTRPC();
+  return useMutation(
+    trpc.workflow.execute.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`워크플로우 "${data.name}" 실행 성공`);
+      },
+      onError: (error) => {
+        toast.error(`워크플로우 실행 실패: ${error.message}`);
+      },
+    })
+  );
+};
