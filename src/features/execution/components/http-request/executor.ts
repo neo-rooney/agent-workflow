@@ -3,6 +3,13 @@ import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 import type { HttpRequestNodeData } from "./node";
 import Handlebars from "handlebars";
+
+Handlebars.registerHelper("json", (context) => {
+  const jsonString = JSON.stringify(context, null, 2);
+  const safeString = new Handlebars.SafeString(jsonString);
+  return safeString;
+});
+
 export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
   nodeId,
   context,
@@ -34,7 +41,12 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
     const method = data.method;
     const options: KyOptions = { method };
     if (["POST", "PUT", "PATCH"].includes(method)) {
-      options.body = data.body;
+      const resolved = Handlebars.compile(data.body)(context);
+      JSON.parse(resolved);
+      options.body = resolved;
+      options.headers = {
+        "Content-Type": "application/json",
+      };
     }
     const response = await ky(endpoint, options);
     const contentType = response.headers.get("content-type");
