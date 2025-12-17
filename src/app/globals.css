@@ -124,9 +124,7 @@
 /* 
 * Tailwind CSS V4에서 버튼에 cursor 제거된 것 복구하기 위한 코드
 */
-@layer base {
-  button:not([disabled]),
-  [role="button"]:not([disabled]) {
-    cursor: pointer;
-  }
+button:not([disabled]),
+[role="button"]:not([disabled]) {
+  cursor: pointer;
 }
