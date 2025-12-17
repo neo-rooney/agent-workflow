@@ -12,12 +12,26 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
   // TODO: loading state for http request
 
   if (!data.endpoint) {
-    throw new NonRetriableError("HTTP Request node: No endpoint configured");
+    throw new NonRetriableError(
+      "HTTP Request node: Endpoint가 설정되지 않았습니다."
+    );
+  }
+
+  if (!data.variableName) {
+    throw new NonRetriableError(
+      "HTTP Request node: 변수 이름이 설정되지 않았습니다."
+    );
+  }
+
+  if (!data.method) {
+    throw new NonRetriableError(
+      "HTTP Request node: 메서드가 설정되지 않았습니다."
+    );
   }
 
   const result = await step.run("http-request", async () => {
-    const endpoint = data.endpoint!;
-    const method = data.method || "GET";
+    const endpoint = data.endpoint;
+    const method = data.method;
     const options: KyOptions = { method };
     if (["POST", "PUT", "PATCH"].includes(method)) {
       options.body = data.body;
@@ -28,13 +42,17 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
       ? await response.json()
       : await response.text();
 
-    return {
-      ...context,
+    const responsePayload = {
       httpResponse: {
         status: response.status,
         statusText: response.statusText,
         data: responseData,
       },
+    };
+
+    return {
+      ...context,
+      [data.variableName]: responsePayload,
     };
   });
 

@@ -5,8 +5,9 @@ import { memo, useState } from "react";
 import { BaseExecutionNode } from "../base-execution-node";
 import { HttpRequestDialog, type HttpRequsetFormValues } from "./dialog";
 export type HttpRequestNodeData = {
-  endpoint?: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  variableName: string;
+  endpoint: string;
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
 };
 
@@ -38,6 +39,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
               endpoint: values.endpoint,
               method: values.method,
               body: values.body,
+              variableName: values.variableName,
             },
           };
         }

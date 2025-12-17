@@ -42,7 +42,13 @@ interface HttpRequestDialogProps {
 }
 
 const formSchema = z.object({
-  endpoint: z.url({ message: "Please enter a valid URL" }),
+  variableName: z
+    .string()
+    .min(1, { message: "변수 이름은 필수 입력 항목입니다." })
+    .regex(/^[a-zA-Z_$][A-Za-z0-9_$]*$/, {
+      message: "변수 이름은 영문자, 숫자, 언더스코어로 시작해야 합니다.",
+    }),
+  endpoint: z.url({ message: "올바른 URL을 입력해주세요." }),
   method: z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
   body: z.string().optional(),
 });
@@ -56,6 +62,7 @@ export const HttpRequestDialog = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      variableName: defaultValues?.variableName ?? "",
       endpoint: defaultValues?.endpoint ?? "",
       method: defaultValues?.method ?? "GET",
       body: defaultValues?.body ?? "",
@@ -63,6 +70,7 @@ export const HttpRequestDialog = ({
   });
 
   const watchMethod = form.watch("method");
+  const watchVariableName = form.watch("variableName") || "MyApiCall";
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit(values);
@@ -72,6 +80,7 @@ export const HttpRequestDialog = ({
   useEffect(() => {
     if (open) {
       form.reset({
+        variableName: defaultValues?.variableName ?? "",
         endpoint: defaultValues?.endpoint ?? "",
         method: defaultValues?.method ?? "GET",
         body: defaultValues?.body ?? "",
@@ -91,6 +100,23 @@ export const HttpRequestDialog = ({
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-8 mt-4"
           >
+            <FormField
+              control={form.control}
+              name="variableName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Variable Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="MyApiCall" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    다른 노드에서 사용할 현재 노드의 변수 이름을 입력합니다.{" "}
+                    {`{{${watchVariableName}.httpResponse.data}}`}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="method"
@@ -135,9 +161,11 @@ export const HttpRequestDialog = ({
                   </FormControl>
 
                   <FormDescription>
-                    요청할 URL을 입력합니다. {"{{variables}}"}를 사용하여 간단한
-                    값을 입력할 수 있습니다. {"{{json variable}}"}를 사용하여
-                    객체를 문자열로 변환할 수 있습니다.
+                    요청할 URL을 입력합니다.{" "}
+                    {"{{prevNodeName.httpResponse.data.id}}"}와 같이 이전 노드
+                    실행 결과를 변수로 사용 할 수 있습니다.{" "}
+                    {"{{json prevNodeName.httpResponse.data}}"}와 같이 이전 노드
+                    실행 결과 전체를 변수로 사용 할 수 있습니다.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -162,9 +190,11 @@ export const HttpRequestDialog = ({
                       />
                     </FormControl>
                     <FormDescription>
-                      요청 본문을 입력합니다. {"{{variables}}"}를 사용하여
-                      간단한 값을 입력할 수 있습니다. {"{{json variable}}"}를
-                      사용하여 객체를 문자열로 변환할 수 있습니다.
+                      요청 본문을 입력합니다.{" "}
+                      {"{{prevNodeName.httpResponse.data.id}}"}와 같이 이전 노드
+                      실행 결과를 변수로 사용 할 수 있습니다.{" "}
+                      {"{{json prevNodeName.httpResponse.data}}"}와 같이 이전
+                      노드 실행 결과 전체를 변수로 사용 할 수 있습니다.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
