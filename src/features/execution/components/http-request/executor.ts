@@ -2,7 +2,7 @@ import type { NodeExecutor } from "@/configs/executors";
 import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 import type { HttpRequestNodeData } from "./node";
-
+import Handlebars from "handlebars";
 export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
   nodeId,
   context,
@@ -30,7 +30,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestNodeData> = async ({
   }
 
   const result = await step.run("http-request", async () => {
-    const endpoint = data.endpoint;
+    const endpoint = Handlebars.compile(data.endpoint)(context);
     const method = data.method;
     const options: KyOptions = { method };
     if (["POST", "PUT", "PATCH"].includes(method)) {
