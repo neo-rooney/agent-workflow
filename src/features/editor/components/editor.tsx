@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingView, ErrorView } from "@/components/entity-components";
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo, useMemo } from "react";
 import {
   ReactFlow,
   applyNodeChanges,
@@ -23,6 +23,8 @@ import { nodeComponents } from "@/configs/node-components";
 import { AddNodeButton } from "@/components/add-node-button";
 import { editorAtom } from "@/features/editor/store/atoms";
 import { useSetAtom } from "jotai";
+import { NodeType } from "@/generated/prisma/enums";
+import { EditorExecuteButton } from "@/features/editor/components/editor-execute-button";
 
 export const EditorLoadingView = () => {
   return <LoadingView message="워크플로우 편집기를 불러오는 중입니다." />;
@@ -57,6 +59,11 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
       setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
     []
   );
+
+  const hasManualTrigger = useMemo(() => {
+    return nodes.some((node) => node.type === NodeType.MAMUAL_TRIGGER);
+  }, [nodes]);
+
   return (
     <div className="size-full">
       <ReactFlow
@@ -78,6 +85,11 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         <Panel position="top-right">
           <AddNodeButton />
         </Panel>
+        {hasManualTrigger && (
+          <Panel position="bottom-center">
+            <EditorExecuteButton workflowId={workflowId} />
+          </Panel>
+        )}
       </ReactFlow>
     </div>
   );

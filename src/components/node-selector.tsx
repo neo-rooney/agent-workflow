@@ -29,7 +29,7 @@ const triggerNodes: NodeTypeOption[] = [
     type: NodeType.MAMUAL_TRIGGER,
     label: "Trigger Manually",
     description:
-      "버튼을 클릭하면 흐름을 실행하는 노드입니다. 빠르게 시작하기 위해 사용합니다.",
+      "워크플로우를 수동으로 실행하는 노드입니다. 해당 노드가 존재하는 경우 워크플로우 실행 버튼이 에디터에 표시됩니다.",
     icon: MousePointerIcon,
   },
 ];

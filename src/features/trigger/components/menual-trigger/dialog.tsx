@@ -21,9 +21,11 @@ export const ManualTriggerDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>메뉴얼 트리거</DialogTitle>
+          <DialogTitle>Manual Trigger</DialogTitle>
           <DialogDescription>
-            트리거 노드가 클릭되면 흐름을 실행합니다.
+            메뉴얼 트리거 노드가 존재하는 경우 워크플로우 실행 버튼이 에디터에
+            표시됩니다. <br />
+            메뉴얼 트리거 노드는 에디터에 단 하나만 존재할 수 있습니다.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
