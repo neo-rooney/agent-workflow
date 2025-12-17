@@ -113,7 +113,7 @@ export function LoginForm() {
                   </Button>
                 </div>
                 <div className="text-center text-sm">
-                  이미 계정이 있으신가요?{" "}
+                  아직 회원이 아니신가요?{"  "}
                   <Link href="/signup" className="underline underline-offset-4">
                     회원가입
                   </Link>
