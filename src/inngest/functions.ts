@@ -3,10 +3,14 @@ import { NonRetriableError } from "inngest";
 import prisma from "@/lib/prisma";
 import { topologicalSort } from "@/inngest/utils";
 import { getExecutor, type NodeTypeForExecutor } from "@/configs/executors";
+import { manualTriggerChannel } from "@/inngest/channels/menual-trigger";
 
 export const executeWorkflow = inngest.createFunction(
   { id: "execute-workflow" },
-  { event: "workflows/execute.workflow" },
+  {
+    event: "workflows/execute.workflow",
+    channels: [manualTriggerChannel()],
+  },
   async ({ event, step, publish }) => {
     const workflowId = event.data.workflowId;
 
