@@ -2,6 +2,7 @@ import { NodeType } from "@/generated/prisma/enums";
 import type { GetStepTools, Inngest } from "inngest";
 import { manualTriggerExecutor } from "@/features/trigger/components/menual-trigger/executor";
 import { httpRequestExecutor } from "@/features/execution/components/http-request/executor";
+import type { Realtime } from "@inngest/realtime";
 
 export type WorkflowContext = Record<string, unknown>;
 
@@ -11,7 +12,7 @@ export interface NodeExecutionParams<TData = Record<string, unknown>> {
   nodeId: string;
   context: WorkflowContext;
   step: StepTools;
-  // publish: TODO
+  publish: Realtime.PublishFn;
 }
 
 export type NodeExecutor<TData = Record<string, unknown>> = (
@@ -21,7 +22,7 @@ export type NodeExecutor<TData = Record<string, unknown>> = (
 export type NodeTypeForExecutor = Exclude<NodeType, typeof NodeType.INITIAL>;
 
 export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
-  [NodeType.HTTP_REQUEST]: httpRequestExecutor,
+  [NodeType.HTTP_REQUEST]: httpRequestExecutor as NodeExecutor,
   [NodeType.MAMUAL_TRIGGER]: manualTriggerExecutor,
 };
 
