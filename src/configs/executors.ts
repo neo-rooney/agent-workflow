@@ -3,6 +3,7 @@ import type { GetStepTools, Inngest } from "inngest";
 import { manualTriggerExecutor } from "@/features/trigger/components/menual-trigger/executor";
 import { httpRequestExecutor } from "@/features/execution/components/http-request/executor";
 import type { Realtime } from "@inngest/realtime";
+import { googleFormTriggerExecutor } from "@/features/trigger/components/google-form-trigger/executor";
 
 export type WorkflowContext = Record<string, unknown>;
 
@@ -24,6 +25,7 @@ export type NodeTypeForExecutor = Exclude<NodeType, typeof NodeType.INITIAL>;
 export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
   [NodeType.HTTP_REQUEST]: httpRequestExecutor as NodeExecutor,
   [NodeType.MAMUAL_TRIGGER]: manualTriggerExecutor,
+  [NodeType.GOOGLE_FORM_TRIGGER]: googleFormTriggerExecutor,
 };
 
 export const getExecutor = (nodeType: NodeTypeForExecutor): NodeExecutor => {

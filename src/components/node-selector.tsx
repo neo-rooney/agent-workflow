@@ -32,6 +32,13 @@ const triggerNodes: NodeTypeOption[] = [
       "워크플로우를 수동으로 실행하는 노드입니다. 해당 노드가 존재하는 경우 워크플로우 실행 버튼이 에디터에 표시됩니다.",
     icon: MousePointerIcon,
   },
+  {
+    type: NodeType.GOOGLE_FORM_TRIGGER,
+    label: "Google Form Trigger",
+    description:
+      "구글 폼 제출 시 워크플로우를 실행하는 노드입니다. 빠르게 시작하기 좋습니다.",
+    icon: "/logos/google-form.svg",
+  },
 ];
 
 const executionNodes: NodeTypeOption[] = [
@@ -124,6 +131,8 @@ export function NodeSelector({
                     src={Icon}
                     alt={nodeType.label}
                     className="size-5 object-contain rounded-sm"
+                    width={20}
+                    height={20}
                   />
                 ) : (
                   <Icon className="size-5" />
@@ -159,6 +168,8 @@ export function NodeSelector({
                     src={Icon}
                     alt={nodeType.label}
                     className="size-5 object-contain rounded-sm"
+                    width={20}
+                    height={20}
                   />
                 ) : (
                   <Icon className="size-5" />

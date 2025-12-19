@@ -93,6 +93,7 @@ model Workflow {
 enum NodeType {
   INITIAL
   MAMUAL_TRIGGER
+  GOOGLE_FORM_TRIGGER
   HTTP_REQUEST
 }
 

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { PAGINATION } from "@/configs/constants";
 import { NodeType } from "@/generated/prisma/enums";
 import type { Edge, Node } from "@xyflow/react";
-import { inngest } from "@/inngest/client";
+import { sendWorkflowExecution } from "@/inngest/utils";
 
 const workflowNameGenerator = () => {
   const prefix = "workflow";
@@ -219,9 +219,8 @@ export const workflowRouter = createTRPCRouter({
         },
       });
 
-      await inngest.send({
-        name: "workflows/execute.workflow",
-        data: { workflowId: input.id },
+      await sendWorkflowExecution({
+        workflowId: input.id,
       });
 
       return workflow;

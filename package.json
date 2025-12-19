@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "inngest:dev": "inngest-cli dev"
+    "inngest:dev": "inngest-cli dev",
+    "ngrok:dev": "dotenv -e .env -- sh -c 'ngrok http --domain=$NGROK_DOMAIN 3000'"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.44",
@@ -60,6 +61,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/toposort": "^2.0.7",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "inngest-cli": "^1.15.0",
