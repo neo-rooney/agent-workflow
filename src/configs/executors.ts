@@ -5,6 +5,8 @@ import { httpRequestExecutor } from "@/features/execution/components/http-reques
 import type { Realtime } from "@inngest/realtime";
 import { googleFormTriggerExecutor } from "@/features/trigger/components/google-form-trigger/executor";
 import { geminiExecutor } from "@/features/execution/components/gemini/executor";
+import { openaiExecutor } from "@/features/execution/components/openai/executor";
+import { anthropicExecutor } from "@/features/execution/components/anthropic/executor";
 
 export type WorkflowContext = Record<string, unknown>;
 
@@ -28,6 +30,8 @@ export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
   [NodeType.MAMUAL_TRIGGER]: manualTriggerExecutor,
   [NodeType.GOOGLE_FORM_TRIGGER]: googleFormTriggerExecutor,
   [NodeType.GEMINI]: geminiExecutor as NodeExecutor,
+  [NodeType.OPENAI]: openaiExecutor as NodeExecutor,
+  [NodeType.ANTHROPIC]: anthropicExecutor as NodeExecutor,
 };
 
 export const getExecutor = (nodeType: NodeTypeForExecutor): NodeExecutor => {

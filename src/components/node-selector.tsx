@@ -56,6 +56,20 @@ const executionNodes: NodeTypeOption[] = [
       "Google Gemini를 활용하여 AI 작업을 수행하는 노드입니다. 다양한 AI 기반 작업에 활용할 수 있습니다.",
     icon: "/logos/gemini.svg",
   },
+  {
+    type: NodeType.OPENAI,
+    label: "OpenAI",
+    description:
+      "OpenAI를 활용하여 AI 작업을 수행하는 노드입니다. 다양한 AI 기반 작업에 활용할 수 있습니다.",
+    icon: "/logos/openai.svg",
+  },
+  {
+    type: NodeType.ANTHROPIC,
+    label: "Anthropic",
+    description:
+      "Anthropic를 활용하여 AI 작업을 수행하는 노드입니다. 다양한 AI 기반 작업에 활용할 수 있습니다.",
+    icon: "/logos/anthropic.svg",
+  },
 ];
 
 interface NodeSelectorProps {

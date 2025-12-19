@@ -7,6 +7,8 @@ import { manualTriggerChannel } from "@/inngest/channels/menual-trigger";
 import { httpRequestChannel } from "@/inngest/channels/http-requset";
 import { googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger";
 import { geminiChannel } from "@/inngest/channels/gemini";
+import { openaiChannel } from "@/inngest/channels/openai";
+import { anthropicChannel } from "@/inngest/channels/anthropic";
 
 export const executeWorkflow = inngest.createFunction(
   { id: "execute-workflow" },
@@ -17,6 +19,8 @@ export const executeWorkflow = inngest.createFunction(
       httpRequestChannel(),
       googleFormTriggerChannel(),
       geminiChannel(),
+      openaiChannel(),
+      anthropicChannel(),
     ],
   },
   async ({ event, step, publish }) => {

@@ -96,6 +96,8 @@ enum NodeType {
   GOOGLE_FORM_TRIGGER
   HTTP_REQUEST
   GEMINI
+  OPENAI
+  ANTHROPIC
 }
 
 model Node {
