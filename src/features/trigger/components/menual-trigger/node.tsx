@@ -10,12 +10,13 @@ import { useNodeStatus } from "@/hooks/use-node-status";
 export const ManualTriggerNode = memo((props: NodeProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const nodeStatus = useNodeStatus({
-    nodeId: props.id,
-    channel: MANUAL_TRIGGER_CHANNEL_NAME,
-    topic: "status",
-    refreshToken: fetchManualTriggerRealtimeToken,
-  });
+  // const nodeStatus = useNodeStatus({
+  //   nodeId: props.id,
+  //   channel: MANUAL_TRIGGER_CHANNEL_NAME,
+  //   topic: "status",
+  //   refreshToken: fetchManualTriggerRealtimeToken,
+  // });
+  const nodeStatus = "error";
 
   const handleOpenSettings = () => {
     setDialogOpen(true);
