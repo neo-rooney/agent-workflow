@@ -6,6 +6,7 @@ import { getExecutor, type NodeTypeForExecutor } from "@/configs/executors";
 import { manualTriggerChannel } from "@/inngest/channels/menual-trigger";
 import { httpRequestChannel } from "@/inngest/channels/http-requset";
 import { googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger";
+import { geminiChannel } from "@/inngest/channels/gemini";
 
 export const executeWorkflow = inngest.createFunction(
   { id: "execute-workflow" },
@@ -15,6 +16,7 @@ export const executeWorkflow = inngest.createFunction(
       manualTriggerChannel(),
       httpRequestChannel(),
       googleFormTriggerChannel(),
+      geminiChannel(),
     ],
   },
   async ({ event, step, publish }) => {

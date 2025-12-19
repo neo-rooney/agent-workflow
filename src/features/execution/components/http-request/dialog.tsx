@@ -105,7 +105,7 @@ export const HttpRequestDialog = ({
               name="variableName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Variable Name</FormLabel>
+                  <FormLabel>변수 이름</FormLabel>
                   <FormControl>
                     <Input placeholder="MyApiCall" {...field} />
                   </FormControl>

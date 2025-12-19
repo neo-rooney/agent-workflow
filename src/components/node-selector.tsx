@@ -49,6 +49,13 @@ const executionNodes: NodeTypeOption[] = [
       "URL에 요청을 보내는 노드입니다. 웹 서비스에 요청을 보낼 때 사용합니다.",
     icon: GlobeIcon,
   },
+  {
+    type: NodeType.GEMINI,
+    label: "Gemini",
+    description:
+      "Google Gemini를 활용하여 AI 작업을 수행하는 노드입니다. 다양한 AI 기반 작업에 활용할 수 있습니다.",
+    icon: "/logos/gemini.svg",
+  },
 ];
 
 interface NodeSelectorProps {

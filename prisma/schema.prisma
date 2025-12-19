@@ -95,6 +95,7 @@ enum NodeType {
   MAMUAL_TRIGGER
   GOOGLE_FORM_TRIGGER
   HTTP_REQUEST
+  GEMINI
 }
 
 model Node {

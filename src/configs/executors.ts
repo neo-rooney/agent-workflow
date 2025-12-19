@@ -4,6 +4,7 @@ import { manualTriggerExecutor } from "@/features/trigger/components/menual-trig
 import { httpRequestExecutor } from "@/features/execution/components/http-request/executor";
 import type { Realtime } from "@inngest/realtime";
 import { googleFormTriggerExecutor } from "@/features/trigger/components/google-form-trigger/executor";
+import { geminiExecutor } from "@/features/execution/components/gemini/executor";
 
 export type WorkflowContext = Record<string, unknown>;
 
@@ -26,6 +27,7 @@ export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
   [NodeType.HTTP_REQUEST]: httpRequestExecutor as NodeExecutor,
   [NodeType.MAMUAL_TRIGGER]: manualTriggerExecutor,
   [NodeType.GOOGLE_FORM_TRIGGER]: googleFormTriggerExecutor,
+  [NodeType.GEMINI]: geminiExecutor as NodeExecutor,
 };
 
 export const getExecutor = (nodeType: NodeTypeForExecutor): NodeExecutor => {
