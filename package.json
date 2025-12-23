@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:all": "dotenv -- mprocs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -67,6 +68,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "inngest-cli": "^1.15.0",
+    "mprocs": "^0.8.2",
     "prisma": "^7.1.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
