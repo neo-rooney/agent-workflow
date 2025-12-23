@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -145,8 +146,9 @@ export const CredentialsItem = ({ data }: { data: Credential }) => {
       subtitle={
         <>
           마지막 업데이트{" "}
-          {formatDistanceToNow(data.updatedAt, { addSuffix: true })} &bull; 생성
-          일 {formatDistanceToNow(data.createdAt, { addSuffix: true })}
+          {formatDistanceToNow(data.updatedAt, { addSuffix: true, locale: ko })}{" "}
+          &bull; 생성 일{" "}
+          {formatDistanceToNow(data.createdAt, { addSuffix: true, locale: ko })}
         </>
       }
       image={

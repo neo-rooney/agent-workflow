@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import {
   CheckCircle2Icon,
   ClockIcon,
@@ -93,6 +94,7 @@ export const ExecutionHistoryView = ({
             <p className="text-sm">
               {formatDistanceToNow(executionHistory.startedAt, {
                 addSuffix: true,
+                locale: ko,
               })}
             </p>
           </div>
@@ -105,6 +107,7 @@ export const ExecutionHistoryView = ({
               <p className="text-sm">
                 {formatDistanceToNow(executionHistory.completedAt, {
                   addSuffix: true,
+                  locale: ko,
                 })}
               </p>
             </div>

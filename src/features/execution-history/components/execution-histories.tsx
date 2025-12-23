@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import {
   CheckCircle2Icon,
   ClockIcon,
@@ -135,8 +136,8 @@ export const ExecutionHistoryItem = ({
   const subTitle = (
     <>
       {data.workflow.name} &bull; 시작 시간{" "}
-      {formatDistanceToNow(data.startedAt, { addSuffix: true })}
-      {duration && <>&bull; {duration}s</>}
+      {formatDistanceToNow(data.startedAt, { addSuffix: true, locale: ko })}
+      {duration && <> &bull; 실행 시간 {duration}s</>}
     </>
   );
 

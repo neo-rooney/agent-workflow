@@ -19,6 +19,7 @@ import {
 import { Workflow } from "@/generated/prisma/client";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import { WorkflowIcon } from "lucide-react";
 import { useWorkflowsParams } from "@/features/workflow/hooks/use-workflows-params";
 import { useEntitySearch } from "@/hooks/use-entity-search";
@@ -87,9 +88,9 @@ export const WorkflowsItem = ({ data }: { data: Workflow }) => {
       title={data.name}
       subtitle={
         <>
-          Updated {formatDistanceToNow(data.updatedAt, { addSuffix: true })}{" "}
+          Updated {formatDistanceToNow(data.updatedAt, { addSuffix: true, locale: ko })}{" "}
           &bull; Created{" "}
-          {formatDistanceToNow(data.createdAt, { addSuffix: true })}
+          {formatDistanceToNow(data.createdAt, { addSuffix: true, locale: ko })}
         </>
       }
       image={
