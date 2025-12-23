@@ -5,6 +5,10 @@ import { prefetchExecutionHistories } from "@/features/execution-history/server/
 import { HydrateClient } from "@/trpc/server";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
+import {
+  ExecutionHistoryContainer,
+  ExecutionHistoryList,
+} from "@/features/execution-history/components/execution-histories";
 
 type Props = {
   searchParams: Promise<SearchParams>;
@@ -17,13 +21,15 @@ const Page = async ({ searchParams }: Props) => {
   prefetchExecutionHistories(params);
 
   return (
-    <HydrateClient>
-      <ErrorBoundary fallback={<div>Error</div>}>
-        <Suspense fallback={<div>Loading</div>}>
-          <div>Executions</div>
-        </Suspense>
-      </ErrorBoundary>
-    </HydrateClient>
+    <ExecutionHistoryContainer>
+      <HydrateClient>
+        <ErrorBoundary fallback={<div>Error</div>}>
+          <Suspense fallback={<div>Loading</div>}>
+            <ExecutionHistoryList />
+          </Suspense>
+        </ErrorBoundary>
+      </HydrateClient>
+    </ExecutionHistoryContainer>
   );
 };
 
