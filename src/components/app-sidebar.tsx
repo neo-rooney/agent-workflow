@@ -22,8 +22,8 @@ const menuItems = [
     title: "Main",
     items: [
       { title: "워크플로우", icon: FolderOpenIcon, url: "/workflows" },
-      { title: "자격증명", icon: KeyIcon, url: "/credentials" },
-      { title: "실행", icon: HistoryIcon, url: "/executions" },
+      { title: "인증 관리", icon: KeyIcon, url: "/credentials" },
+      { title: "실행 기록", icon: HistoryIcon, url: "/executions" },
     ],
   },
 ];
