@@ -5,6 +5,10 @@ import { SearchParams } from "nuqs";
 import { HydrateClient } from "@/trpc/server";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
+import {
+  CredentialsContainer,
+  CredentialsList,
+} from "@/features/credential/components/credentials";
 
 type Props = {
   searchParams: Promise<SearchParams>;
@@ -17,13 +21,15 @@ const Page = async ({ searchParams }: Props) => {
   prefetchCredentials(params);
 
   return (
-    <HydrateClient>
-      <ErrorBoundary fallback={<div>Error</div>}>
-        <Suspense fallback={<div>Loading</div>}>
-          <div>Credentials</div>
-        </Suspense>
-      </ErrorBoundary>
-    </HydrateClient>
+    <CredentialsContainer>
+      <HydrateClient>
+        <ErrorBoundary fallback={<div>Error</div>}>
+          <Suspense fallback={<div>Loading</div>}>
+            <CredentialsList />
+          </Suspense>
+        </ErrorBoundary>
+      </HydrateClient>
+    </CredentialsContainer>
   );
 };
 

@@ -32,7 +32,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { AVAILABLE_OPENAI_MODELS } from "@/configs/constants";
-
+import { useCredentialsByType } from "@/features/credential/hooks/use-credentials";
+import { CredentialType } from "@/generated/prisma/enums";
+import Image from "next/image";
 interface OpenAIDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -50,6 +52,7 @@ const formSchema = z.object({
   model: z.enum(AVAILABLE_OPENAI_MODELS),
   systemPrompt: z.string().optional(),
   userPrompt: z.string().min(1, "사용자 프롬프트는 필수 입력 항목입니다."),
+  credentialId: z.string().min(1, "인증 정보는 필수 선택 항목입니다."),
 });
 
 export type OpenAIFormValues = z.infer<typeof formSchema>;
@@ -60,6 +63,8 @@ export const OpenAIDialog = ({
   onSubmit,
   defaultValues = {},
 }: OpenAIDialogProps) => {
+  const { data: credentials, isLoading: isLoadingCredentials } =
+    useCredentialsByType(CredentialType.OPENAI);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,6 +72,7 @@ export const OpenAIDialog = ({
       model: defaultValues.model ?? AVAILABLE_OPENAI_MODELS[0],
       systemPrompt: defaultValues.systemPrompt ?? "",
       userPrompt: defaultValues.userPrompt ?? "",
+      credentialId: defaultValues.credentialId ?? "",
     },
   });
 
@@ -84,6 +90,7 @@ export const OpenAIDialog = ({
         model: defaultValues.model ?? AVAILABLE_OPENAI_MODELS[0],
         systemPrompt: defaultValues.systemPrompt ?? "",
         userPrompt: defaultValues.userPrompt ?? "",
+        credentialId: defaultValues.credentialId ?? "",
       });
     }
   }, [open, defaultValues, form]);
@@ -116,6 +123,42 @@ export const OpenAIDialog = ({
                     다른 노드에서 사용할 현재 노드의 변수 이름을 입력합니다.{" "}
                     {`{{${watchVariableName}.text}}`}
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="credentialId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>OpenAI 인증 정보</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={isLoadingCredentials || !credentials?.length}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a credential" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {credentials?.map((credential) => (
+                        <SelectItem key={credential.id} value={credential.id}>
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src="/logos/openai.svg"
+                              alt="OpenAI"
+                              width={16}
+                              height={16}
+                            />
+                            {credential.name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
