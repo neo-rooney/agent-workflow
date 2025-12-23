@@ -135,7 +135,7 @@ export const ExecutionHistoryItem = ({
 
   const subTitle = (
     <>
-      {data.workflow.name} &bull; 시작 시간{" "}
+      {data.status} &bull; 시작 시간{" "}
       {formatDistanceToNow(data.startedAt, { addSuffix: true, locale: ko })}
       {duration && <> &bull; 실행 시간 {duration}s</>}
     </>
@@ -144,7 +144,7 @@ export const ExecutionHistoryItem = ({
   return (
     <EntityItem
       href={`/executions/${data.id}`}
-      title={data.status}
+      title={`${data.workflow.name} 워크플로우 실행 기록`}
       subtitle={subTitle}
       image={
         <div className="size-8 flex items-center justify-center">
