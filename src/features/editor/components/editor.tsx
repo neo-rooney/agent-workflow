@@ -1,6 +1,9 @@
 "use client";
 
-import { LoadingView, ErrorView } from "@/components/entity-components";
+import {
+  EntityLoadingView,
+  EntityErrorView,
+} from "@/components/entity-components";
 import { useState, useCallback, memo, useMemo } from "react";
 import {
   ReactFlow,
@@ -27,12 +30,12 @@ import { NodeType } from "@/generated/prisma/enums";
 import { EditorExecuteButton } from "@/features/editor/components/editor-execute-button";
 
 export const EditorLoadingView = () => {
-  return <LoadingView message="워크플로우 편집기를 불러오는 중입니다." />;
+  return <EntityLoadingView message="워크플로우 편집기를 불러오는 중입니다." />;
 };
 
 export const EditorErrorView = () => {
   return (
-    <ErrorView message="워크플로우 편집기를 불러오는 중에 오류가 발생했습니다." />
+    <EntityErrorView message="워크플로우 편집기를 불러오는 중에 오류가 발생했습니다." />
   );
 };
 

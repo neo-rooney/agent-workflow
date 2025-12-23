@@ -126,7 +126,7 @@ export const EntityList = <T,>({
   if (items.length === 0 && emptyView) {
     return (
       <div className="flex-1 flex justify-center items-center">
-        <div className="max-w-sm mx-auto">{emptyView}</div>
+        <div className="w-sm mx-auto">{emptyView}</div>
       </div>
     );
   }
@@ -275,7 +275,7 @@ export const EntityPagination = ({
           size="sm"
           onClick={() => onPageChange(Math.max(1, page - 1))}
         >
-          Previous
+          이전
         </Button>
         <Button
           disabled={page === totalPages || totalPages === 0 || disabled}
@@ -283,7 +283,7 @@ export const EntityPagination = ({
           size="sm"
           onClick={() => onPageChange(Math.min(totalPages, page + 1))}
         >
-          Next
+          다음
         </Button>
       </div>
     </div>
@@ -291,33 +291,40 @@ export const EntityPagination = ({
 };
 
 interface StateViewProps {
-  message?: string;
+  message?: string | React.ReactNode;
 }
 
 interface EntityEmptyViewProps extends StateViewProps {
   onNew?: () => void;
+  buttonLabel?: string;
+  title?: string;
 }
 
-export const EntityEmptyView = ({ message, onNew }: EntityEmptyViewProps) => {
+export const EntityEmptyView = ({
+  message,
+  onNew,
+  buttonLabel,
+  title,
+}: EntityEmptyViewProps) => {
   return (
-    <Empty className="border border-dashed bg-white">
+    <Empty className="border border-dashed bg-white w-full">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <PackageOpenIcon />
         </EmptyMedia>
       </EmptyHeader>
-      <EmptyTitle>No Items</EmptyTitle>
+      <EmptyTitle>{title || "No Items"}</EmptyTitle>
       {!!message && <EmptyDescription>{message}</EmptyDescription>}
       {!!onNew && (
         <EmptyContent>
-          <Button onClick={onNew}>Add Item</Button>
+          <Button onClick={onNew}>{buttonLabel || "Add Item"}</Button>
         </EmptyContent>
       )}
     </Empty>
   );
 };
 
-export const LoadingView = ({ message }: StateViewProps) => {
+export const EntityLoadingView = ({ message }: StateViewProps) => {
   return (
     <div className="flex justify-center items-center h-full flex-1 flex-col gap-y-4">
       <Loader2Icon className="size-6 animate-spin text-primary" />
@@ -328,7 +335,7 @@ export const LoadingView = ({ message }: StateViewProps) => {
   );
 };
 
-export const ErrorView = ({ message }: StateViewProps) => {
+export const EntityErrorView = ({ message }: StateViewProps) => {
   return (
     <div className="flex justify-center items-center h-full flex-1 flex-col gap-y-4">
       <AlertTriangleIcon className="size-6 text-primary" />

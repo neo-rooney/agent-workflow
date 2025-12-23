@@ -8,8 +8,8 @@ import {
   EntityList,
   EntityPagination,
   EntitySearch,
-  ErrorView,
-  LoadingView,
+  EntityErrorView,
+  EntityLoadingView,
 } from "@/components/entity-components";
 import {
   useCreateWorkflow,
@@ -151,11 +151,11 @@ export const WorkflowsPagination = () => {
 };
 
 export const WorkflowsLoadingView = () => {
-  return <LoadingView message="워크플로우를 불러오는 중입니다." />;
+  return <EntityLoadingView message="워크플로우를 불러오는 중입니다." />;
 };
 
 export const WorkflowsErrorView = () => {
   return (
-    <ErrorView message="워크플로우를 불러오는 중에 오류가 발생했습니다." />
+    <EntityErrorView message="워크플로우를 불러오는 중에 오류가 발생했습니다." />
   );
 };
