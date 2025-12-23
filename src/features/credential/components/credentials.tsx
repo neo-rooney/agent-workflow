@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   EntityEmptyView,
-  EntittyHeader,
+  EntityHeader,
   EntityContainer,
   EntityItem,
   EntityList,
@@ -53,7 +53,7 @@ export const CredentialsList = () => {
 
 export const CredentialsHeader = ({ disabled }: { disabled: boolean }) => {
   return (
-    <EntittyHeader
+    <EntityHeader
       title="인증 정보"
       description="인증 정보를 생성하고 관리합니다"
       newButtonLabel="새 인증 정보"

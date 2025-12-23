@@ -62,7 +62,7 @@ export const EntityContainer = ({
 type EntityHeaderProps = {
   title: string;
   description?: string;
-  newButtonLabel: string;
+  newButtonLabel?: string;
   disabled?: boolean;
   isCreating?: boolean;
 } & (
@@ -71,7 +71,7 @@ type EntityHeaderProps = {
   | { onNew?: never; newButtonHref?: never }
 );
 
-export const EntittyHeader = ({
+export const EntityHeader = ({
   title,
   description,
   newButtonLabel,

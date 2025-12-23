@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  EntittyHeader,
+  EntityHeader,
   EntityContainer,
   EntityEmptyView,
   EntityItem,
@@ -63,7 +63,7 @@ export const WorkflowsHeader = ({ disabled }: { disabled: boolean }) => {
     });
   };
   return (
-    <EntittyHeader
+    <EntityHeader
       title="워크플로우"
       description="워크플로우를 생성하고 관리합니다"
       onNew={handleCreate}
