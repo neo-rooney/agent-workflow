@@ -5,6 +5,8 @@ import { NonRetriableError } from "inngest";
 import type { NodeExecutor } from "@/configs/executors";
 import { openaiChannel } from "@/inngest/channels/openai";
 import type { OpenAIFormValues } from "@/features/execution/components/openai/dialog";
+import prisma from "@/lib/prisma";
+import { decrypt } from "@/lib/encryption";
 
 Handlebars.registerHelper("json", (context) => {
   const jsonString = JSON.stringify(context, null, 2);
@@ -18,6 +20,7 @@ export const openaiExecutor: NodeExecutor<OpenAIFormValues> = async ({
   step,
   data,
   publish,
+  userId,
 }) => {
   await publish(
     openaiChannel().status({
@@ -55,11 +58,21 @@ export const openaiExecutor: NodeExecutor<OpenAIFormValues> = async ({
   const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
   try {
-    //TODO: 키값 유저입력으로 추후 변경
-    const credentialValue = process.env.OPENAI_API_KEY;
+    const credential = await step.run("get-credential", async () => {
+      return prisma.credential.findUnique({
+        where: {
+          id: data.credentialId,
+          userId,
+        },
+      });
+    });
+
+    if (!credential) {
+      throw new NonRetriableError("OpenAI node: 인증 정보를 찾을 수 없습니다.");
+    }
 
     const openai = createOpenAI({
-      apiKey: credentialValue,
+      apiKey: decrypt(credential.value),
     });
 
     const { steps } = await step.ai.wrap("openai-generate-text", generateText, {
