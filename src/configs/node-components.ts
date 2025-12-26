@@ -7,6 +7,7 @@ import { GoogleFormTriggerNode } from "@/features/trigger/components/google-form
 import { GeminiNode } from "@/features/execution/components/gemini/node";
 import { OpenAINode } from "@/features/execution/components/openai/node";
 import { AnthropicNode } from "@/features/execution/components/anthropic/node";
+import { EditFieldsNode } from "@/features/execution/components/edit-fields/node";
 
 export const nodeComponents = {
   [NodeType.INITIAL]: InitialNode,
@@ -16,6 +17,7 @@ export const nodeComponents = {
   [NodeType.GEMINI]: GeminiNode,
   [NodeType.OPENAI]: OpenAINode,
   [NodeType.ANTHROPIC]: AnthropicNode,
+  [NodeType.EDIT_FIELDS]: EditFieldsNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;

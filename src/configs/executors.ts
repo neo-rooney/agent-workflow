@@ -7,6 +7,7 @@ import { googleFormTriggerExecutor } from "@/features/trigger/components/google-
 import { geminiExecutor } from "@/features/execution/components/gemini/executor";
 import { openaiExecutor } from "@/features/execution/components/openai/executor";
 import { anthropicExecutor } from "@/features/execution/components/anthropic/executor";
+import { editFieldsExecutor } from "@/features/execution/components/edit-fields/executor";
 
 export type WorkflowContext = Record<string, unknown>;
 
@@ -33,6 +34,7 @@ export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
   [NodeType.GEMINI]: geminiExecutor as NodeExecutor,
   [NodeType.OPENAI]: openaiExecutor as NodeExecutor,
   [NodeType.ANTHROPIC]: anthropicExecutor as NodeExecutor,
+  [NodeType.EDIT_FIELDS]: editFieldsExecutor as NodeExecutor,
 };
 
 export const getExecutor = (nodeType: NodeTypeForExecutor): NodeExecutor => {

@@ -2,7 +2,7 @@
 
 import { createId } from "@paralleldrive/cuid2";
 import { useReactFlow } from "@xyflow/react";
-import { GlobeIcon, MousePointerIcon } from "lucide-react";
+import { EditIcon, GlobeIcon, MousePointerIcon } from "lucide-react";
 import Image from "next/image";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -42,6 +42,13 @@ const triggerNodes: NodeTypeOption[] = [
 ];
 
 const executionNodes: NodeTypeOption[] = [
+  {
+    type: NodeType.EDIT_FIELDS,
+    label: "Edit Fields",
+    description:
+      "필드 이름, 타입, 값을 정의하여 다음 노드에서 사용할 수 있도록 하는 노드입니다. 사용자 입력을 받아 워크플로우에 전달할 때 사용합니다.",
+    icon: EditIcon,
+  },
   {
     type: NodeType.HTTP_REQUEST,
     label: "HTTP Request",

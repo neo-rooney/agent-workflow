@@ -9,6 +9,7 @@ import { googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger
 import { geminiChannel } from "@/inngest/channels/gemini";
 import { openaiChannel } from "@/inngest/channels/openai";
 import { anthropicChannel } from "@/inngest/channels/anthropic";
+import { editFieldsChannel } from "@/inngest/channels/edit-fields";
 import { ExecutionStatus } from "@/generated/prisma/enums";
 
 export const executeWorkflow = inngest.createFunction(
@@ -40,6 +41,7 @@ export const executeWorkflow = inngest.createFunction(
       geminiChannel(),
       openaiChannel(),
       anthropicChannel(),
+      editFieldsChannel(),
     ],
   },
   async ({ event, step, publish }) => {
