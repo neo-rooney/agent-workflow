@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "inngest:dev": "inngest-cli dev",
-    "ngrok:dev": "dotenv -e .env -- sh -c 'ngrok http --domain=$NGROK_DOMAIN 3000'"
+    "ngrok:dev": "dotenv -e .env -- sh -c 'ngrok http --domain=$NGROK_DOMAIN 3000'",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.56",
