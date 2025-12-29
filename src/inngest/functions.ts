@@ -3,13 +3,6 @@ import { NonRetriableError } from "inngest";
 import prisma from "@/lib/prisma";
 import { topologicalSort } from "@/inngest/utils";
 import { getExecutor, type NodeTypeForExecutor } from "@/configs/executors";
-import { manualTriggerChannel } from "@/inngest/channels/menual-trigger";
-import { httpRequestChannel } from "@/inngest/channels/http-requset";
-import { googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger";
-import { geminiChannel } from "@/inngest/channels/gemini";
-import { openaiChannel } from "@/inngest/channels/openai";
-import { anthropicChannel } from "@/inngest/channels/anthropic";
-import { editFieldsChannel } from "@/inngest/channels/edit-fields";
 import { ExecutionStatus } from "@/generated/prisma/enums";
 
 export const executeWorkflow = inngest.createFunction(
@@ -34,15 +27,6 @@ export const executeWorkflow = inngest.createFunction(
   },
   {
     event: "workflows/execute.workflow",
-    channels: [
-      manualTriggerChannel(),
-      httpRequestChannel(),
-      googleFormTriggerChannel(),
-      geminiChannel(),
-      openaiChannel(),
-      anthropicChannel(),
-      editFieldsChannel(),
-    ],
   },
   async ({ event, step, publish }) => {
     const workflowId = event.data.workflowId;
