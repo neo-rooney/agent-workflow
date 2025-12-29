@@ -34,7 +34,7 @@ export const executorRegistry: Record<NodeTypeForExecutor, NodeExecutor> = {
   [NodeType.GEMINI]: geminiExecutor as NodeExecutor,
   [NodeType.OPENAI]: openaiExecutor as NodeExecutor,
   [NodeType.ANTHROPIC]: anthropicExecutor as NodeExecutor,
-  [NodeType.EDIT_FIELDS]: editFieldsExecutor as NodeExecutor,
+  [NodeType.EDIT_FIELDS]: editFieldsExecutor as unknown as NodeExecutor,
 };
 
 export const getExecutor = (nodeType: NodeTypeForExecutor): NodeExecutor => {
